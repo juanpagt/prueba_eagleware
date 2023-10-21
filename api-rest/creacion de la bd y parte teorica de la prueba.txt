@@ -174,4 +174,44 @@ LIMIT 10;
 FROM vista_combinada
 GROUP BY vista_combinada.TipoServicio;
 
+Parte teorica:
+a. los términos reservados async y await están relacionados con la programación asincrónica, que permite escribir código que no bloquea el hilo principal de ejecución, lo que es útil en situaciones donde se realizan operaciones que pueden llevar tiempo, como solicitudes a bases de datos o llamadas a servicios web. 
+async se usa como modificador en una declaración de método para indicar que el método es asincrónico. Un método marcado como async puede contener operaciones asincrónicas y utilizar la palabra clave await para esperar a que esas operaciones se completen sin bloquear el hilo principal.
+
+async Task MiMetodoAsincronico()
+{
+    // Operaciones asincrónicas aquí
+}
+
+await se usa dentro de un método async para indicar que se debe esperar a que una operación asincrónica se complete antes de continuar con la ejecución del código que sigue.
+
+async Task MiMetodoAsincronico()
+{
+    // Realiza una operación asincrónica
+    await OperacionAsincronica();
+    
+    // El código que sigue se ejecutará después de que la operación asincrónica termine.
+}
+
+b. GET (Obtener):
+
+El método GET se utiliza para recuperar información de un recurso de la API. Cuando se realiza una solicitud GET a una URL específica, se espera que la API devuelva datos relacionados con ese recurso, generalmente en formato JSON, XML u otro formato de datos. Las solicitudes GET no deben tener un impacto en los datos ni causar cambios en el servidor; son idempotentes, lo que significa que realizar la misma solicitud GET varias veces no debería cambiar el estado del servidor ni causar efectos secundarios.
+
+POST (Crear):
+
+El método POST se utiliza para crear un nuevo recurso en la API. Al realizar una solicitud POST a una URL, se envían datos que describen el nuevo recurso que se debe crear. La API procesa estos datos y crea un nuevo recurso en el servidor. Las solicitudes POST pueden tener efectos secundarios, como la creación de nuevos registros en una base de datos.
+
+PUT (Actualizar):
+
+El método PUT se utiliza para actualizar un recurso existente en la API. Al realizar una solicitud PUT a una URL específica, se envían datos que describen la versión actualizada del recurso. La API debe usar estos datos para actualizar el recurso existente o crearlo si no existe. Las solicitudes PUT son idempotentes, lo que significa que realizar la misma solicitud PUT varias veces con los mismos datos no debe cambiar el estado más allá de la primera actualización.
+
+DELETE (Eliminar):
+
+El método DELETE se utiliza para eliminar un recurso específico de la API. Al realizar una solicitud DELETE a una URL, se espera que la API elimine el recurso relacionado con esa URL. Las solicitudes DELETE tienen el efecto de eliminar datos o recursos, por lo que deben utilizarse con precaución.
+
+
+c). Git es un sistema de control de versiones distribuido que permite realizar un seguimiento de las versiones de archivos y proyectos de software, lo que facilita el trabajo colaborativo y el control de cambios.
+
+GitHub es una plataforma de alojamiento en la nube para proyectos de desarrollo de software que utilizan Git como sistema de control de versiones. GitHub proporciona servicios que permiten a los desarrolladores colaborar en proyectos, compartir código, realizar seguimiento de problemas y administrar proyectos de software.
+
 
