@@ -1,0 +1,177 @@
+1.
+a) // crear bd:
+CREATE DATABASE "Prueba"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+
+//crear tablas: 
+CREATE TABLE public."Extensiones"
+(
+    "NumeroExtensiones" bigint NOT NULL,
+    "NombreUsuario" text NOT NULL,
+    PRIMARY KEY ("NumeroExtensiones")
+);
+
+CREATE TABLE public."Servicios"
+(
+    "TipoServicio" bigint NOT NULL,
+    "DescripcionServicio" text NOT NULL,
+    PRIMARY KEY ("TipoServicio")
+);
+CREATE TABLE public."Llamadas"
+(
+    "Id" bigint NOT NULL,
+    "FechaHoraLlamada" date NOT NULL,
+    "NumeroExtension" bigint NOT NULL,
+    "NumeroMarcado" bigint NOT NULL,
+    "DuracionLlamada" bigint NOT NULL,
+    "CostoLlamada" bigint NOT NULL,
+    "TipoServicio" bigint NOT NULL,
+    PRIMARY KEY ("Id")
+CONSTRAINT "fk_NumeroExtension" FOREIGN KEY ("NumeroExtension")
+        REFERENCES public."Extensiones" ("NumeroExtensiones") MATCH SIMPLE
+
+ALTER TABLE IF EXISTS public."Llamadas"
+    ADD CONSTRAINT "fk_TipoServicio" FOREIGN KEY ("TipoServicio")
+    REFERENCES public."Servicios" ("TipoServicio") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+//Insertar datos a las tablas
+
+INSERT INTO public."Servicios"(
+	"TipoServicio", "DescripcionServicio")
+	VALUES (1, 'Llamada Local');
+
+INSERT INTO public."Servicios"(
+	"TipoServicio", "DescripcionServicio")
+	VALUES (2, 'Llamada Nacional');
+
+INSERT INTO public."Servicios"(
+	"TipoServicio", "DescripcionServicio")
+	VALUES (3, 'Llamada Internacional');
+
+INSERT INTO public."Servicios"(
+	"TipoServicio", "DescripcionServicio")
+	VALUES (4, 'Llamada Celular');
+
+INSERT INTO public."Extensiones"(
+	"NumeroExtensiones", "NombreUsuario")
+	VALUES (5749411, 'Maria Trinidad Chica Uribe');
+
+INSERT INTO public."Extensiones"(
+	"NumeroExtensiones", "NombreUsuario")
+	VALUES (5749412, 'Julio Cesar Gomez Gil');
+
+INSERT INTO public."Extensiones"(
+	"NumeroExtensiones", "NombreUsuario")
+	VALUES (5749413, 'Maryori Jimenez Jimenez');
+
+INSERT INTO public."Extensiones"(
+	"NumeroExtensiones", "NombreUsuario")
+	VALUES (5749414, 'Ruby Alexandra Hinestroza Garcia');
+
+INSERT INTO public."Extensiones"(
+	"NumeroExtensiones", "NombreUsuario")
+	VALUES (5749415, 'Johan Alejandro Ramirez Caicedo');
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (1, '21-11-2021', 5749411, 3118911780, 185, 200, 4);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (2, '21-11-2021', 5749412, 6012739400, 240,  0, 1);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (3, '21-11-2021', 5749411, 6045441257, 120, 160, 2);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (4, '21-11-2021', 5749413, 3002458798, 245, 250, 4);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (5, '21-11-2021', 5749414, 12053568978, 170, 300, 3);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (6, '21-11-2021', 5749413, 6087845923, 45, 80, 2);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (7, '21-11-2021', 5749414, 6023567841, 93, 160, 2);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (8, '21-11-2021', 5749413, 13052564578, 240, 400, 3);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (9, '21-11-2021', 5749415, 3204785210, 45, 50, 4);
+
+INSERT INTO public."Llamadas"(
+	"Id", "FechaHoraLlamada", "NumeroExtension", "NumeroMarcado", "DuracionLlamada", "CostoLlamada", "TipoServicio")
+	VALUES (10, '21-11-2021', 5749415, 6012784125, 0, 0, 1);
+
+//vista
+a)CREATE OR REPLACE VIEW vista_combinada AS
+SELECT
+    L.Id,
+    L.FechaHoraLlamada,
+    L.NumeroMarcado,
+    L.DuracionLlamada,
+    L.CostoLlamada,
+    E.NumeroExtension,
+    E.NombreUsuario,
+    S.TipoServicio,
+    S.DescripcionServicio
+FROM "Llamadas" L
+JOIN "Extensiones" E ON L."NumeroExtension" = E."NumeroExtension"
+JOIN "Servicios" S ON L."TipoServicio" = S."TipoServicio";
+
+
+b)
+
+-SELECT
+    vista_combinada.NombreUsuario AS Usuario,
+    COUNT(*) AS NumeroDeLlamadas,
+    SUM(vista_combinada.DuracionLlamada) AS DuracionTotal,
+    SUM(vista_combinada.CostoLlamada) AS CostoTotal
+FROM vista_combinada
+GROUP BY vista_combinada.NombreUsuario;
+
+
+-SELECT
+    Id,
+    FechaHoraLlamada,
+    NumeroMarcado,
+    DuracionLlamada
+FROM vista_combinada
+ORDER BY DuracionLlamada DESC
+LIMIT 10;
+
+
+-SELECT
+    Id,
+    FechaHoraLlamada,
+    NumeroMarcado,
+    DuracionLlamada
+FROM vista_combinada
+ORDER BY CostoLlamada DESC
+LIMIT 10;
+
+
+-SELECT
+    vista_combinada.TipoServicio AS TipoDeServicio,
+    COUNT(*) AS NumeroDeLlamadas,
+    SUM(vista_combinada.CostoLlamada) AS CostoTotal
+FROM vista_combinada
+GROUP BY vista_combinada.TipoServicio;
+
+
